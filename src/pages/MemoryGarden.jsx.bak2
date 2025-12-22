@@ -127,7 +127,7 @@ export const MemoryGarden = () => {
   if (loading) {
     return (
       <div className="min-h-[calc(100vh-80px)] px-6 py-12">
-        <div className="text-center text-[#666666] text-xl">Growing your garden...</div>
+        <div className="text-center text-text-light text-xl">Growing your garden...</div>
       </div>
     );
   }
@@ -136,8 +136,8 @@ export const MemoryGarden = () => {
     <div className="min-h-[calc(100vh-80px)] px-6 py-12">
       {/* Header */}
       <div className="text-center mb-12 fade-in">
-        <h1 className="text-5xl text-[#2c2c2c] mb-2">Memory Garden</h1>
-        <p className="text-xl text-[#666666] font-serif italic">
+        <h1 className="text-5xl text-text-dark mb-2">Memory Garden</h1>
+        <p className="text-xl text-text-light font-serif italic">
           Each flower represents a memory, a feeling, or a moment of love
         </p>
       </div>
@@ -147,7 +147,7 @@ export const MemoryGarden = () => {
         {/* Plant Button */}
         <button
           onClick={() => setShowPlantModal(true)}
-          className="flex items-center justify-center gap-3 w-full p-5 bg-gradient-to-r from-[#b8c5b4] to-[#d4e9d4] text-white rounded-lg text-xl font-medium mb-8 hover:-translate-y-1 hover:shadow-xl transition-all fade-in"
+          className="flex items-center justify-center gap-3 w-full p-5 bg-gradient-to-r from-sage to-mint text-white rounded-lg text-xl font-medium mb-8 hover:-translate-y-1 hover:shadow-xl transition-all fade-in"
         >
           <span className="text-2xl">🌱</span>
           <span>Plant a Flower</span>
@@ -157,10 +157,10 @@ export const MemoryGarden = () => {
         <div className="relative w-full h-[500px] bg-gradient-to-b from-[#E8F4EA] to-[#C8E6C9] rounded-lg overflow-hidden shadow-inner mb-4">
           {flowers.length === 0 ? (
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center w-4/5 max-w-md px-4 fade-in">
-              <p className="text-lg leading-relaxed text-[#666666]">
+              <p className="text-lg leading-relaxed text-text-light">
                 Your garden is ready for its first flower.
               </p>
-              <p className="text-lg leading-relaxed text-[#666666]">
+              <p className="text-lg leading-relaxed text-text-light">
                 Plant one to start growing your memories.
               </p>
             </div>
@@ -186,7 +186,7 @@ export const MemoryGarden = () => {
 
         {/* Stats */}
         <div className="text-center bg-white p-4 rounded-lg fade-in">
-          <p className="flex items-center justify-center gap-2 text-lg text-[#2c2c2c]">
+          <p className="flex items-center justify-center gap-2 text-lg text-text-dark">
             <span className="text-2xl">🌸</span>
             <span>
               {flowers.length} flower{flowers.length !== 1 ? 's' : ''} planted
@@ -207,35 +207,35 @@ export const MemoryGarden = () => {
           >
             {/* Close Button */}
             <button
-              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#ffe5d9] text-[#2c2c2c] text-2xl flex items-center justify-center hover:bg-[#ffcab0] hover:rotate-90 transition-all"
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-peach text-text-dark text-2xl flex items-center justify-center hover:bg-coral hover:rotate-90 transition-all"
               onClick={() => setShowPlantModal(false)}
             >
               ✕
             </button>
 
-            <h2 className="text-3xl text-[#2c2c2c] mb-2">Plant a Flower</h2>
-            <p className="text-[#666666] mb-8">
+            <h2 className="text-3xl text-text-dark mb-2">Plant a Flower</h2>
+            <p className="text-text-light mb-8">
               Choose a flower that represents your memory
             </p>
 
             {/* Flower Type */}
             <div className="mb-8">
-              <label className="block font-medium text-[#2c2c2c] mb-2">Flower Type</label>
+              <label className="block font-medium text-text-dark mb-2">Flower Type</label>
               <div className="grid grid-cols-3 gap-2">
                 {flowerTypes.map((flower) => (
                   <button
                     key={flower.type}
                     className={`flex flex-col items-center gap-1 p-4 rounded-lg border-2 transition-all ${
                       newFlower.flower_type === flower.type
-                        ? 'bg-[#d4e9d4] border-[#b8c5b4]'
-                        : 'bg-[#fff8f0] border-transparent hover:bg-[#ffe5d9]'
+                        ? 'bg-mint border-sage'
+                        : 'bg-cream border-transparent hover:bg-peach'
                     }`}
                     onClick={() =>
                       setNewFlower({ ...newFlower, flower_type: flower.type })
                     }
                   >
                     <span className="text-3xl">{flower.emoji}</span>
-                    <span className="text-sm text-[#2c2c2c]">{flower.name}</span>
+                    <span className="text-sm text-text-dark">{flower.name}</span>
                   </button>
                 ))}
               </div>
@@ -243,14 +243,14 @@ export const MemoryGarden = () => {
 
             {/* Color */}
             <div className="mb-8">
-              <label className="block font-medium text-[#2c2c2c] mb-2">Color</label>
+              <label className="block font-medium text-text-dark mb-2">Color</label>
               <div className="flex gap-2 flex-wrap">
                 {colors.map((color) => (
                   <button
                     key={color.name}
                     className={`w-12 h-12 rounded-full border-3 shadow-md transition-all ${
                       newFlower.color === color.name
-                        ? 'border-[#b8c5b4] scale-115'
+                        ? 'border-sage scale-115'
                         : 'border-transparent hover:scale-110'
                     }`}
                     style={{ backgroundColor: color.hex }}
@@ -265,7 +265,7 @@ export const MemoryGarden = () => {
 
             {/* Message */}
             <div className="mb-8">
-              <label className="block font-medium text-[#2c2c2c] mb-2">
+              <label className="block font-medium text-text-dark mb-2">
                 Memory or Message
               </label>
               <textarea
@@ -275,14 +275,14 @@ export const MemoryGarden = () => {
                   setNewFlower({ ...newFlower, message: e.target.value })
                 }
                 rows={4}
-                className="w-full p-4 border-2 border-[#ffe5d9] rounded-lg font-serif leading-relaxed resize-y bg-[#fff8f0] focus:border-[#b8c5b4] focus:bg-white transition-all"
+                className="w-full p-4 border-2 border-peach rounded-lg font-serif leading-relaxed resize-y bg-cream focus:border-sage focus:bg-white transition-all"
               />
             </div>
 
             {/* Submit Button */}
             <button
               onClick={plantFlower}
-              className="w-full p-4 bg-gradient-to-r from-[#b8c5b4] to-[#d4e9d4] text-white rounded-lg text-lg font-medium hover:-translate-y-1 hover:shadow-xl transition-all"
+              className="w-full p-4 bg-gradient-to-r from-sage to-mint text-white rounded-lg text-lg font-medium hover:-translate-y-1 hover:shadow-xl transition-all"
             >
               Plant This Flower
             </button>
@@ -302,25 +302,25 @@ export const MemoryGarden = () => {
           >
             {/* Close Button */}
             <button
-              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#ffe5d9] text-[#2c2c2c] text-2xl flex items-center justify-center hover:bg-[#ffcab0] hover:rotate-90 transition-all"
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-peach text-text-dark text-2xl flex items-center justify-center hover:bg-coral hover:rotate-90 transition-all"
               onClick={() => setSelectedFlower(null)}
             >
               ✕
             </button>
 
             {/* Header */}
-            <div className="text-center mb-8 pb-6 border-b-2 border-[#ffe5d9]">
+            <div className="text-center mb-8 pb-6 border-b-2 border-peach">
               <div className="text-8xl mb-4">
                 {getFlowerEmoji(selectedFlower.flower_type)}
               </div>
-              <p className="text-[#666666] text-sm">
+              <p className="text-text-light text-sm">
                 Planted on {formatDate(selectedFlower.created_at)}
               </p>
             </div>
 
             {/* Body */}
             <div className="mb-8">
-              <p className="text-xl text-[#2c2c2c] leading-relaxed font-serif whitespace-pre-wrap">
+              <p className="text-xl text-text-dark leading-relaxed font-serif whitespace-pre-wrap">
                 {selectedFlower.message}
               </p>
             </div>
@@ -328,7 +328,7 @@ export const MemoryGarden = () => {
             {/* Delete Button */}
             <button
               onClick={() => deleteFlower(selectedFlower.id)}
-              className="w-full p-4 bg-[#ffb3c1] text-[#2c2c2c] rounded-lg font-medium hover:bg-[#F0A0A0] hover:-translate-y-1 transition-all"
+              className="w-full p-4 bg-rose text-text-dark rounded-lg font-medium hover:bg-[#F0A0A0] hover:-translate-y-1 transition-all"
             >
               Remove Flower
             </button>

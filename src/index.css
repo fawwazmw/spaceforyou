@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  /* Custom Colors */
+  --color-cream: #fff8f0;
+  --color-peach: #ffe5d9;
+  --color-coral: #ffcab0;
+  --color-rose: #ffb3c1;
+  --color-blush: #ffc1cc;
+  --color-lavender: #e8d5f2;
+  --color-sage: #b8c5b4;
+  --color-mint: #d4e9d4;
+  --color-gold: #ffd700;
+  --color-soft-yellow: #ffed4e;
+  --color-text-dark: #2c2c2c;
+  --color-text-light: #666666;
+  --color-text-muted: #999999;
+
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-serif: 'Crimson Text', Georgia, serif;
+
+  /* Animations */
+  --animate-fade-in: fade-in 0.6s ease-out forwards;
+  --animate-slide-up: slide-up 0.4s ease-out forwards;
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body {
+  background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-peach) 50%, var(--color-lavender) 100%);
+  min-height: 100vh;
+}
+
+button {
+  cursor: pointer;
+  border: 0;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+button:focus {
+  outline: none;
+}
+
+input, textarea {
+  outline: none;
+}
+
+.fade-in {
+  animation: var(--animate-fade-in);
+}
+
+.slide-up {
+  animation: var(--animate-slide-up);
+}

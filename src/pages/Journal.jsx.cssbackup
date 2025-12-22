@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNotification } from '../contexts/NotificationContext';
 import { supabase } from '../lib/supabase';
+import './Journal.css';
 
 export const Journal = () => {
   const { showSnackbar, showConfirm } = useNotification();
@@ -123,30 +124,30 @@ export const Journal = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen px-6 py-8 pb-16">
-        <div className="text-center text-[#666666] text-xl p-12">Loading your journal...</div>
+      <div className="journal-page">
+        <div className="loading">Loading your journal...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen px-6 py-8 pb-16">
-      <div className="text-center mb-12 fade-in">
-        <h1 className="text-5xl font-semibold bg-gradient-to-r from-[#FF8A9B] to-[#FF6B9D] bg-clip-text text-transparent mb-2">Her Space</h1>
+    <div className="journal-page">
+      <div className="journal-header fade-in">
+        <h1>Her Space</h1>
         <p>Your private journal for thoughts, memories, and healing</p>
       </div>
 
-      <div className="max-w-4xl mx-auto">
+      <div className="journal-container">
         {!isWriting && (
           <>
-            <button className="flex items-center justify-center gap-3 w-full p-5 bg-gradient-to-r from-[#FFB6C1] to-[#FF8FA3] text-white rounded-2xl text-xl font-medium mb-8 shadow-lg hover:-translate-y-1 hover:shadow-xl transition-all fade-in" onClick={() => setIsWriting(true)}>
+            <button className="new-entry-button fade-in" onClick={() => setIsWriting(true)}>
               <span>✍️</span>
               <span>Write New Entry</span>
             </button>
 
-            <div className="flex flex-col gap-4">
+            <div className="entries-list">
               {entries.length === 0 ? (
-                <div className="text-center p-12 bg-white/70 backdrop-blur-md rounded-2xl text-[#666666] shadow-lg border border-white/30 fade-in">
+                <div className="empty-state fade-in">
                   <p>Your journal is waiting for your first entry.</p>
                   <p>Take your time, write when you're ready.</p>
                 </div>
@@ -154,13 +155,13 @@ export const Journal = () => {
                 entries.map((entry, index) => (
                   <div
                     key={entry.id}
-                    className="bg-white/75 backdrop-blur-md p-6 rounded-2xl cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all border border-white/30 fade-in"
+                    className="entry-preview fade-in"
                     style={{ animationDelay: `${index * 0.1}s` }}
                     onClick={() => setSelectedEntry(entry)}
                   >
                     <h3>{entry.title || 'Untitled'}</h3>
-                    <p className="text-[#999999] text-sm mb-3">{formatDate(entry.created_at)}</p>
-                    <p className="text-[#666666] leading-relaxed">
+                    <p className="entry-date">{formatDate(entry.created_at)}</p>
+                    <p className="entry-snippet">
                       {entry.content.substring(0, 150)}
                       {entry.content.length > 150 ? '...' : ''}
                     </p>
@@ -172,10 +173,10 @@ export const Journal = () => {
         )}
 
         {isWriting && (
-          <div className="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl border border-white/30 fade-in">
-            <div className="flex items-center justify-between mb-6">
+          <div className="entry-editor fade-in">
+            <div className="editor-header">
               <h2>{editingId ? 'Edit Entry' : 'New Entry'}</h2>
-              <button className="px-6 py-2 bg-[#666666] text-white rounded-lg hover:bg-[#555555] transition-all" onClick={resetForm}>
+              <button className="cancel-button" onClick={resetForm}>
                 Cancel
               </button>
             </div>
@@ -187,7 +188,7 @@ export const Journal = () => {
               onChange={(e) =>
                 setCurrentEntry({ ...currentEntry, title: e.target.value })
               }
-              className="w-full p-4 mb-4 border-2 border-[#FFE5D9] rounded-lg text-xl font-serif bg-[#FFF8F0] focus:border-[#FFB6C1] focus:bg-white transition-all"
+              className="entry-title-input"
             />
 
             <textarea
@@ -196,11 +197,11 @@ export const Journal = () => {
               onChange={(e) =>
                 setCurrentEntry({ ...currentEntry, content: e.target.value })
               }
-              className="w-full p-4 mb-6 border-2 border-[#FFE5D9] rounded-lg font-serif text-lg leading-relaxed resize-y bg-[#FFF8F0] focus:border-[#FFB6C1] focus:bg-white transition-all"
+              className="entry-content-input"
               rows={15}
             />
 
-            <button className="w-full p-4 bg-gradient-to-r from-[#FFB6C1] to-[#FF8FA3] text-white rounded-lg text-lg font-medium hover:-translate-y-1 hover:shadow-xl transition-all" onClick={saveEntry}>
+            <button className="save-button" onClick={saveEntry}>
               {editingId ? 'Update Entry' : 'Save Entry'}
             </button>
           </div>
@@ -208,27 +209,27 @@ export const Journal = () => {
       </div>
 
       {selectedEntry && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6 animate-fade-in" onClick={() => setSelectedEntry(null)}>
-          <div className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <button className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#FFE5D9] text-[#2C2C2C] text-2xl flex items-center justify-center hover:bg-[#FFCAB0] hover:rotate-90 transition-all" onClick={() => setSelectedEntry(null)}>
+        <div className="entry-modal" onClick={() => setSelectedEntry(null)}>
+          <div className="entry-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setSelectedEntry(null)}>
               ✕
             </button>
 
-            <div className="mb-8 pb-6 border-b-2 border-[#FFE5D9]">
+            <div className="entry-modal-header">
               <h2>{selectedEntry.title || 'Untitled'}</h2>
-              <p className="text-[#666666] text-sm">{formatDate(selectedEntry.created_at)}</p>
+              <p className="entry-modal-date">{formatDate(selectedEntry.created_at)}</p>
             </div>
 
-            <div className="mb-8">
+            <div className="entry-modal-body">
               <p>{selectedEntry.content}</p>
             </div>
 
-            <div className="flex gap-4">
-              <button className="flex-1 p-4 bg-gradient-to-r from-[#FFB6C1] to-[#FF8FA3] text-white rounded-lg font-medium hover:-translate-y-1 hover:shadow-xl transition-all" onClick={() => startEdit(selectedEntry)}>
+            <div className="entry-modal-actions">
+              <button className="edit-button" onClick={() => startEdit(selectedEntry)}>
                 Edit
               </button>
               <button
-                className="flex-1 p-4 bg-[#FFB3C1] text-[#2C2C2C] rounded-lg font-medium hover:bg-[#F0A0A0] hover:-translate-y-1 transition-all"
+                className="delete-button"
                 onClick={() => deleteEntry(selectedEntry.id)}
               >
                 Delete

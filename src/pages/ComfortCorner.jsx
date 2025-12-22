@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './ComfortCorner.css';
+
 
 const quotes = [
   {
@@ -75,56 +75,56 @@ export const ComfortCorner = () => {
   };
 
   return (
-    <div className="comfort-page">
-      <div className="comfort-header fade-in">
-        <h1>Comfort Corner</h1>
+    <div className="min-h-screen px-6 py-12">
+      <div className="text-center mb-12 fade-in">
+        <h1 className="text-5xl font-serif text-[#2c2c2c] mb-4">Comfort Corner</h1>
         <p>A peaceful space for reflection and calm</p>
       </div>
 
-      <div className="comfort-content">
-        <div className="quotes-section fade-in">
-          <div className="section-title">
-            <span className="title-icon">💭</span>
-            <h2>Words of Wisdom</h2>
+      <div className="max-w-6xl mx-auto space-y-12">
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/30 fade-in">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl">💭</span>
+            <h2 className="text-3xl font-semibold text-[#2c2c2c]">Words of Wisdom</h2>
           </div>
 
-          <div className="quote-card">
-            <button className="quote-nav prev" onClick={prevQuote}>
+          <div className="relative bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-12 mb-6">
+            <button className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#ffe5d9] text-2xl flex items-center justify-center transition-all" onClick={prevQuote}>
               ‹
             </button>
 
-            <div className="quote-content">
-              <p className="quote-text">"{quotes[currentQuote].text}"</p>
-              <p className="quote-author">— {quotes[currentQuote].author}</p>
+            <div className="max-w-2xl mx-auto text-center px-16">
+              <p className="text-2xl font-serif text-[#2c2c2c] leading-relaxed mb-4">"{quotes[currentQuote].text}"</p>
+              <p className="text-lg text-[#666666] italic">— {quotes[currentQuote].author}</p>
             </div>
 
-            <button className="quote-nav next" onClick={nextQuote}>
+            <button className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#ffe5d9] text-2xl flex items-center justify-center transition-all" onClick={nextQuote}>
               ›
             </button>
           </div>
 
-          <div className="quote-dots">
+          <div className="flex items-center justify-center gap-2">
             {quotes.map((_, index) => (
               <button
                 key={index}
-                className={`dot ${index === currentQuote ? 'active' : ''}`}
+                className={`w-2 h-2 rounded-full transition-all ${index === currentQuote ? 'bg-[#FFB6C1] w-8' : 'bg-[#e5e5e5]'}`}
                 onClick={() => setCurrentQuote(index)}
               />
             ))}
           </div>
         </div>
 
-        <div className="breathing-section fade-in">
-          <div className="section-title">
-            <span className="title-icon">🌬️</span>
-            <h2>Breathing Exercises</h2>
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/30 fade-in">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl">🌬️</span>
+            <h2 className="text-3xl font-semibold text-[#2c2c2c]">Breathing Exercises</h2>
           </div>
 
-          <div className="breathing-selector">
+          <div className="flex gap-2 mb-6 flex-wrap">
             {breathingExercises.map((exercise, index) => (
               <button
                 key={index}
-                className={`exercise-tab ${selectedExercise === index ? 'active' : ''}`}
+                className={`px-6 py-3 rounded-lg transition-all ${selectedExercise === index ? 'bg-gradient-to-r from-[#b8c5b4] to-[#d4e9d4] text-white' : 'bg-[#f5f5f5] hover:bg-[#e5e5e5] text-[#666666]'}`}
                 onClick={() => setSelectedExercise(index)}
               >
                 {exercise.name}
@@ -132,57 +132,57 @@ export const ComfortCorner = () => {
             ))}
           </div>
 
-          <div className="exercise-card">
-            <h3>{breathingExercises[selectedExercise].name}</h3>
-            <p className="exercise-description">
+          <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-8">
+            <h3 className="text-2xl font-semibold text-[#2c2c2c] mb-3">{breathingExercises[selectedExercise].name}</h3>
+            <p className="text-[#666666] mb-6">
               {breathingExercises[selectedExercise].description}
             </p>
 
-            <ol className="exercise-steps">
+            <ol className="space-y-3 mb-6 list-decimal list-inside text-[#666666]">
               {breathingExercises[selectedExercise].steps.map((step, index) => (
                 <li key={index}>{step}</li>
               ))}
             </ol>
 
             <button
-              className="start-breathing-button"
+              className="w-full p-4 bg-gradient-to-r from-[#b8c5b4] to-[#d4e9d4] text-white rounded-lg font-medium hover:shadow-lg hover:-translate-y-1 transition-all"
               onClick={() => setShowBreathing(!showBreathing)}
             >
               {showBreathing ? 'Stop Exercise' : 'Start Exercise'}
             </button>
 
             {showBreathing && (
-              <div className="breathing-visual">
-                <div className="breathing-circle" />
-                <p className="breathing-instruction">Breathe with the circle</p>
+              <div className="mt-8 text-center">
+                <div className="w-32 h-32 bg-[#b8c5b4] rounded-full mx-auto animate-pulse" />
+                <p className="mt-4 text-[#666666] font-medium">Breathe with the circle</p>
               </div>
             )}
           </div>
         </div>
 
-        <div className="affirmations-section fade-in">
-          <div className="section-title">
-            <span className="title-icon">✨</span>
-            <h2>Daily Affirmations</h2>
+        <div className="bg-white/80 backdrop-blur-md rounded-2xl p-8 shadow-lg border border-white/30 fade-in">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-3xl">✨</span>
+            <h2 className="text-3xl font-semibold text-[#2c2c2c]">Daily Affirmations</h2>
           </div>
 
-          <div className="affirmations-grid">
-            <div className="affirmation-card">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
               <p>I am allowed to take my time with healing</p>
             </div>
-            <div className="affirmation-card">
+            <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
               <p>My feelings are valid and important</p>
             </div>
-            <div className="affirmation-card">
+            <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
               <p>I carry love with me always</p>
             </div>
-            <div className="affirmation-card">
+            <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
               <p>I am stronger than I know</p>
             </div>
-            <div className="affirmation-card">
+            <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
               <p>It's okay to ask for help</p>
             </div>
-            <div className="affirmation-card">
+            <div className="bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 text-center hover:shadow-lg hover:-translate-y-1 transition-all">
               <p>I honor my emotions without judgment</p>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './Letters.css';
 
 const letters = [
   {
@@ -55,57 +56,38 @@ export const Letters = () => {
   const [selectedLetter, setSelectedLetter] = useState(null);
 
   return (
-    <div className="min-h-screen px-6 py-12">
-      {/* Header */}
-      <div className="text-center mb-12 fade-in">
-        <h1 className="text-5xl font-serif text-[#2c2c2c] mb-4">Letters of Comfort</h1>
-        <p className="text-xl text-[#666666] font-serif italic">
-          Words to hold close when you need them most
-        </p>
+    <div className="letters-page">
+      <div className="letters-header fade-in">
+        <h1>Letters of Comfort</h1>
+        <p>Words to hold close when you need them most</p>
       </div>
 
-      {/* Letters Grid */}
-      <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="letters-grid">
         {letters.map((letter, index) => (
           <div
             key={letter.id}
-            className="bg-white/80 backdrop-blur-md rounded-2xl p-8 text-center cursor-pointer hover:shadow-xl hover:-translate-y-2 transition-all border border-white/30 fade-in"
+            className="letter-card fade-in"
             style={{ animationDelay: `${index * 0.1}s` }}
             onClick={() => setSelectedLetter(letter)}
           >
-            <div className="text-6xl mb-4">{letter.icon}</div>
-            <h3 className="text-2xl font-semibold text-[#2c2c2c] mb-3">{letter.title}</h3>
-            <p className="text-[#666666]">Click to read</p>
+            <div className="letter-icon">{letter.icon}</div>
+            <h3>{letter.title}</h3>
+            <p className="letter-preview">Click to read</p>
           </div>
         ))}
       </div>
 
-      {/* Letter Modal */}
       {selectedLetter && (
-        <div
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-6 animate-fade-in"
-          onClick={() => setSelectedLetter(null)}
-        >
-          <div
-            className="bg-white rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button
-              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#ffe5d9] text-[#2c2c2c] text-2xl flex items-center justify-center hover:bg-[#ffcab0] hover:rotate-90 transition-all"
-              onClick={() => setSelectedLetter(null)}
-            >
+        <div className="letter-modal" onClick={() => setSelectedLetter(null)}>
+          <div className="letter-modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="close-button" onClick={() => setSelectedLetter(null)}>
               ✕
             </button>
-
-            {/* Header */}
-            <div className="text-center mb-8 pb-6 border-b-2 border-[#ffe5d9]">
-              <div className="text-7xl mb-4">{selectedLetter.icon}</div>
-              <h2 className="text-3xl font-serif text-[#2c2c2c]">{selectedLetter.title}</h2>
+            <div className="letter-modal-header">
+              <div className="letter-modal-icon">{selectedLetter.icon}</div>
+              <h2>{selectedLetter.title}</h2>
             </div>
-
-            {/* Body */}
-            <div className="space-y-4 font-serif text-[#666666] text-lg leading-relaxed">
+            <div className="letter-modal-body">
               {selectedLetter.content.split('\n\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
