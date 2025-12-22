@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNotification } from '../contexts/NotificationContext';
+import { supabase } from '../lib/supabase';
 import './MemoryGarden.css';
 
 const flowerTypes = [
@@ -36,21 +37,25 @@ export const MemoryGarden = () => {
     loadFlowers();
   }, []);
 
-  const loadFlowers = () => {
+  const loadFlowers = async () => {
     setLoading(true);
-    const saved = localStorage.getItem('memory_flowers');
-    if (saved) {
-      setFlowers(JSON.parse(saved));
+    try {
+      const { data, error } = await supabase
+        .from('memory_flowers')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setFlowers(data || []);
+    } catch (error) {
+      console.error('Error loading flowers:', error);
+      showSnackbar('Failed to load flowers', 'error');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const saveToStorage = (updatedFlowers) => {
-    localStorage.setItem('memory_flowers', JSON.stringify(updatedFlowers));
-    setFlowers(updatedFlowers);
-  };
-
-  const plantFlower = () => {
+  const plantFlower = async () => {
     if (!newFlower.message.trim()) {
       showSnackbar('Please add a message for your flower', 'warning');
       return;
@@ -59,32 +64,49 @@ export const MemoryGarden = () => {
     const position_x = Math.floor(Math.random() * 80) + 10;
     const position_y = Math.floor(Math.random() * 80) + 10;
 
-    const flower = {
-      id: Date.now().toString(),
-      flower_type: newFlower.flower_type,
-      color: newFlower.color,
-      message: newFlower.message,
-      position_x,
-      position_y,
-      created_at: new Date().toISOString(),
-    };
+    try {
+      const { error } = await supabase
+        .from('memory_flowers')
+        .insert({
+          flower_type: newFlower.flower_type,
+          color: newFlower.color,
+          message: newFlower.message,
+          position_x,
+          position_y,
+        });
 
-    const updatedFlowers = [...flowers, flower];
-    saveToStorage(updatedFlowers);
-    setShowPlantModal(false);
-    setNewFlower({ flower_type: 'rose', color: 'pink', message: '' });
-    showSnackbar('Flower planted successfully', 'success');
+      if (error) throw error;
+
+      setShowPlantModal(false);
+      setNewFlower({ flower_type: 'rose', color: 'pink', message: '' });
+      showSnackbar('Flower planted successfully', 'success');
+      loadFlowers();
+    } catch (error) {
+      console.error('Error planting flower:', error);
+      showSnackbar('Failed to plant flower', 'error');
+    }
   };
 
   const deleteFlower = (id) => {
     showConfirm(
       'Remove Flower?',
       'This flower will be removed from your garden. This action cannot be undone.',
-      () => {
-        const updatedFlowers = flowers.filter((flower) => flower.id !== id);
-        saveToStorage(updatedFlowers);
-        setSelectedFlower(null);
-        showSnackbar('Flower removed from garden', 'success');
+      async () => {
+        try {
+          const { error } = await supabase
+            .from('memory_flowers')
+            .delete()
+            .eq('id', id);
+
+          if (error) throw error;
+
+          setSelectedFlower(null);
+          showSnackbar('Flower removed from garden', 'success');
+          loadFlowers();
+        } catch (error) {
+          console.error('Error deleting flower:', error);
+          showSnackbar('Failed to remove flower', 'error');
+        }
       },
       '🌸'
     );

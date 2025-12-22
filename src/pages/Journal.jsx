@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNotification } from '../contexts/NotificationContext';
+import { supabase } from '../lib/supabase';
 import './Journal.css';
 
 export const Journal = () => {
@@ -15,52 +16,60 @@ export const Journal = () => {
     loadEntries();
   }, []);
 
-  const loadEntries = () => {
+  const loadEntries = async () => {
     setLoading(true);
-    const saved = localStorage.getItem('journal_entries');
-    if (saved) {
-      setEntries(JSON.parse(saved));
+    try {
+      const { data, error } = await supabase
+        .from('journal_entries')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setEntries(data || []);
+    } catch (error) {
+      console.error('Error loading entries:', error);
+      showSnackbar('Failed to load entries', 'error');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
-  const saveToStorage = (updatedEntries) => {
-    localStorage.setItem('journal_entries', JSON.stringify(updatedEntries));
-    setEntries(updatedEntries);
-  };
-
-  const saveEntry = () => {
+  const saveEntry = async () => {
     if (!currentEntry.content.trim()) {
       showSnackbar('Please write something before saving', 'warning');
       return;
     }
 
-    if (editingId) {
-      const updatedEntries = entries.map((entry) =>
-        entry.id === editingId
-          ? {
-              ...entry,
-              title: currentEntry.title,
-              content: currentEntry.content,
-              updated_at: new Date().toISOString(),
-            }
-          : entry
-      );
-      saveToStorage(updatedEntries);
+    try {
+      if (editingId) {
+        const { error } = await supabase
+          .from('journal_entries')
+          .update({
+            title: currentEntry.title,
+            content: currentEntry.content,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', editingId);
+
+        if (error) throw error;
+        showSnackbar('Entry updated successfully', 'success');
+      } else {
+        const { error } = await supabase
+          .from('journal_entries')
+          .insert({
+            title: currentEntry.title,
+            content: currentEntry.content,
+          });
+
+        if (error) throw error;
+        showSnackbar('Entry saved successfully', 'success');
+      }
+
       resetForm();
-      showSnackbar('Entry updated successfully', 'success');
-    } else {
-      const newEntry = {
-        id: Date.now().toString(),
-        title: currentEntry.title,
-        content: currentEntry.content,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      };
-      const updatedEntries = [newEntry, ...entries];
-      saveToStorage(updatedEntries);
-      resetForm();
-      showSnackbar('Entry saved successfully', 'success');
+      loadEntries();
+    } catch (error) {
+      console.error('Error saving entry:', error);
+      showSnackbar('Failed to save entry', 'error');
     }
   };
 
@@ -68,11 +77,22 @@ export const Journal = () => {
     showConfirm(
       'Delete Entry?',
       'This entry will be permanently deleted. This action cannot be undone.',
-      () => {
-        const updatedEntries = entries.filter((entry) => entry.id !== id);
-        saveToStorage(updatedEntries);
-        setSelectedEntry(null);
-        showSnackbar('Entry deleted', 'success');
+      async () => {
+        try {
+          const { error } = await supabase
+            .from('journal_entries')
+            .delete()
+            .eq('id', id);
+
+          if (error) throw error;
+
+          setSelectedEntry(null);
+          showSnackbar('Entry deleted', 'success');
+          loadEntries();
+        } catch (error) {
+          console.error('Error deleting entry:', error);
+          showSnackbar('Failed to delete entry', 'error');
+        }
       },
       '🗑️'
     );
