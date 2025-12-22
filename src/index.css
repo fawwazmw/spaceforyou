@@ -74,3 +74,16 @@ input, textarea {
 .slide-up {
   animation: var(--animate-slide-up);
 }
+
+@media (min-width: 768px) {
+  /* Hide scrollbar for seamless look on desktop while maintaining scroll capability if needed */
+  ::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+  }
+  
+  body {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}

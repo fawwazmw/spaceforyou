@@ -10,7 +10,7 @@ export const Navigation = ({ currentPage, setCurrentPage }) => {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm border-b border-white/20">
+    <nav className="fixed top-0 w-full z-50 bg-white/10 backdrop-blur-sm transition-all duration-300">
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between flex-wrap gap-4">
           {/* Brand */}

@@ -1,0 +1,27 @@
+@keyframes breathe-478 {
+  0% { transform: scale(1); }
+  21.05% { transform: scale(1.5); }
+  57.89% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+@keyframes breathe-box {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.5); }
+  50% { transform: scale(1.5); }
+  75% { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.breathing-circle {
+  transform-origin: center;
+  will-change: transform;
+}
+
+.breathing-478 {
+  animation: breathe-478 19s infinite ease-in-out;
+}
+
+.breathing-box {
+  animation: breathe-box 16s infinite ease-in-out;
+}

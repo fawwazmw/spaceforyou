@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './ComfortCorner.css';
 
 
 const quotes = [
@@ -153,8 +154,12 @@ export const ComfortCorner = () => {
 
             {showBreathing && (
               <div className="mt-8 text-center">
-                <div className="w-32 h-32 bg-[#b8c5b4] rounded-full mx-auto animate-pulse" />
-                <p className="mt-4 text-[#666666] font-medium">Breathe with the circle</p>
+                <div className="h-48 flex items-center justify-center">
+                  <div 
+                    className={`w-32 h-32 bg-[#b8c5b4] rounded-full breathing-circle ${selectedExercise === 0 ? 'breathing-478' : 'breathing-box'}`}
+                  />
+                </div>
+                <p className="mt-2 text-[#666666] font-medium">Breathe with the circle</p>
               </div>
             )}
           </div>

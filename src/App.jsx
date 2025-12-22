@@ -33,7 +33,7 @@ function App() {
       <div className="app">
         <PetOrnaments />
         <Navigation currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        <main className="main-content">{renderPage()}</main>
+        <main className="main-content pt-24">{renderPage()}</main>
       </div>
     </NotificationProvider>
   );
