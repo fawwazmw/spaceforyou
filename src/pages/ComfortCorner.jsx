@@ -89,17 +89,17 @@ export const ComfortCorner = () => {
             <h2 className="text-3xl font-semibold text-[#2c2c2c]">Words of Wisdom</h2>
           </div>
 
-          <div className="relative bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-12 mb-6">
-            <button className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#ffe5d9] text-2xl flex items-center justify-center transition-all" onClick={prevQuote}>
+          <div className="relative bg-gradient-to-br from-[#fff8f0] to-[#ffe5d9] rounded-xl p-6 md:p-12 mb-6">
+            <button className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white hover:bg-[#ffe5d9] text-xl md:text-2xl flex items-center justify-center transition-all z-10" onClick={prevQuote}>
               ‹
             </button>
 
-            <div className="max-w-2xl mx-auto text-center px-16">
-              <p className="text-2xl font-serif text-[#2c2c2c] leading-relaxed mb-4">"{quotes[currentQuote].text}"</p>
-              <p className="text-lg text-[#666666] italic">— {quotes[currentQuote].author}</p>
+            <div className="max-w-2xl mx-auto text-center px-4 md:px-16">
+              <p className="text-xl md:text-2xl font-serif text-[#2c2c2c] leading-relaxed mb-4">"{quotes[currentQuote].text}"</p>
+              <p className="text-base md:text-lg text-[#666666] italic">— {quotes[currentQuote].author}</p>
             </div>
 
-            <button className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white hover:bg-[#ffe5d9] text-2xl flex items-center justify-center transition-all" onClick={nextQuote}>
+            <button className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 rounded-full bg-white hover:bg-[#ffe5d9] text-xl md:text-2xl flex items-center justify-center transition-all z-10" onClick={nextQuote}>
               ›
             </button>
           </div>

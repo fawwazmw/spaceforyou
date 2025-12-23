@@ -1,0 +1,21 @@
+{
+  "name": "A Space for You",
+  "short_name": "Space4You",
+  "description": "A peaceful space for memories, thoughts, and healing",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffeef8",
+  "theme_color": "#ffeef8",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}
